@@ -55,7 +55,7 @@ def get_json_layer_attrs(json_dic):
     is_new_mxnet = 'attr' in json_dic
     return json_dic['attr' if is_new_mxnet else 'param']
 ```
-but in my `-symbol.json` file there are not `attr` nor `param` keys but `attrs`. So in deployed symbol I have replaced `attrs` with `param`, `attrs` has to remain just on almost last line: `"attrs": {"mxnet_version": ["int", 10000]}`. Then I was able to convert my model. I have tested my edited model with `demo.py` and it worked. I have also tried to download, deploy, edit ('attrs' => 'param') and convert https://github.com/zhreshold/mxnet-ssd/releases/download/v0.6/resnet50_ssd_512_voc0712_trainval.zip and it worked with `object_detection_sample_ssd` (from intels deployment toolkit) and also with camera. So I hope the change ('attrs' => 'param') is not breaking models.
+but in my `-symbol.json` file there are not `attr` nor `param` keys but `attrs`. So in deployed symbol I have replaced `attrs` with `param`, `attrs` has to remain just on almost last line: `"attrs": {"mxnet_version": ["int", 10000]}`. Then I was able to convert my model. I have tested my edited model with `demo.py` and it worked. I have also tried to download, deploy, edit (`attrs` => `param`) and convert [resnet50_ssd_512_voc0712](https://github.com/zhreshold/mxnet-ssd/releases/download/v0.6/resnet50_ssd_512_voc0712_trainval.zip) and it worked with `object_detection_sample_ssd` (from Intel's deployment toolkit) and also with camera. So I hope the change (`attrs` => `param`) is not breaking models.
 
 Note: when converting downloaded trained `resnet50_ssd_512` I got info about Upgrading symbol:
 ```
@@ -203,6 +203,6 @@ Detection time for 1 images: 1.0584 sec
 ```
 ![processed with demo.py, optimized model](./out.bmp)
 
-So What is breaking my model?
+So what am I doing wrong? What is breaking converted model and how to fix it?
 
 I have also uploaded zipped trained model, deployed (edited `attrs` => `param`) and converted model to https://s3.amazonaws.com/deeplens-th-ex/model.zip

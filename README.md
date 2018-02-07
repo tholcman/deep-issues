@@ -79,7 +79,7 @@ $ python3 /opt/intel/deeplearning_deploymenttoolkit/deployment_tools/model_optim
 
 ```
 
-If i try sample app `object_detection_sample_ssd` it worked on image taken from camera it ran without error but was not able to detect anything :/
+If i try sample app `object_detection_sample_ssd` it worked on image taken from camera it ran without error but was not able to detect anything (highest prob = 0.283691) :/
 
 ```
 $ /home/aws_cam/build/intel64/Release/object_detection_sample_ssd -i /home/aws_cam/Documents/2018-02-06\ 15\:14\:10.951017.jpg -m ./mxnet_deploy_ssd_resnet50_300_FP16_FUSED.xml -d GPU 

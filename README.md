@@ -205,4 +205,4 @@ Detection time for 1 images: 1.0584 sec
 
 So What is breaking my model?
 
-I have also added zipped trained model, deployed (edited `attrs` => `param`) and converted model model.zip.
+I have also uploaded zipped trained model, deployed (edited `attrs` => `param`) and converted model to https://s3.amazonaws.com/deeplens-th-ex/model.zip

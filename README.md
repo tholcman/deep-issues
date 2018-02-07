@@ -1,9 +1,9 @@
-I have mxnet ssd Resnet50 model trained on custom dataset. For training dataset preparation etc I have used https://github.com/apache/incubator-mxnet/tree/master/example/ssd
+I have mxnet ssd Resnet50 model trained on custom dataset. For training, dataset preparation etc. I have used https://github.com/apache/incubator-mxnet/tree/master/example/ssd and training ran on `p2.xlarge` with `Deep Learning AMI (Ubuntu) Version 2.0 (ami-9ba7c4e1)` Intel's Deeplearning Deployment Toolkit is in version `2017.1.0.5852` (also have tried 56xx), running on EC2 instance and also on DeepLens camera.
 
 I have deployed it:
 
 ```
-$ python3 deploy.py --prefix model/ssd_resnet50_300 --network resnet50 --num-class 20 
+$ python3 deploy.py --prefix model/ssd_resnet50_300 --network resnet50 --num-class 20
 Saved model: model/deploy_ssd_resnet50_300-0000.params
 Saved symbol: model/deploy_ssd_resnet50_300-symbol.json
 
@@ -13,7 +13,7 @@ and tested:
 ```
 $ python3 demo.py --network resnet50 --prefix model/deploy_ssd_resnet50_300 --data-shape 224 --images ~/Documents/2018-02-06\ 15\:14\:10.951017.jpg --cpu --class-names barbell,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 --deploy
 ```
-it worked 
+it worked
 
 ![processed with demo.py, deployed_ressnet50_300](./deployed_ressnet_50_300.png)
 
@@ -47,19 +47,19 @@ Traceback (most recent call last):
     if 'fix_gamma' in l[attr]:
 KeyError: 'param'
 
-``` 
+```
 
-After while digging into convertor source codes. I have found 
+After while digging into convertor source codes. I have found
 ```Python
 def get_json_layer_attrs(json_dic):
     is_new_mxnet = 'attr' in json_dic
     return json_dic['attr' if is_new_mxnet else 'param']
 ```
-but in my `-symbol.json` file there are not `attr` nor `param` keys but `attrs`. In deployed symbol I have replaced `attrs` with `param`, just almost last line have to stay `"attrs": {"mxnet_version": ["int", 10000]}` Then I was able to convert my model. I have tested my edited model with `demo.py` and it worked. I have also tried to download, deploy, edit ('attrs' => 'param') and convert https://github.com/zhreshold/mxnet-ssd/releases/download/v0.6/resnet50_ssd_512_voc0712_trainval.zip and it worked with `object_detection_sample_ssd` and also with camera. So I hope the change ('attrs' => 'param') is not breaking models.
+but in my `-symbol.json` file there are not `attr` nor `param` keys but `attrs`. So in deployed symbol I have replaced `attrs` with `param`, `attrs` has to remain just on almost last line: `"attrs": {"mxnet_version": ["int", 10000]}`. Then I was able to convert my model. I have tested my edited model with `demo.py` and it worked. I have also tried to download, deploy, edit ('attrs' => 'param') and convert https://github.com/zhreshold/mxnet-ssd/releases/download/v0.6/resnet50_ssd_512_voc0712_trainval.zip and it worked with `object_detection_sample_ssd` (from intels deployment toolkit) and also with camera. So I hope the change ('attrs' => 'param') is not breaking models.
 
 Note: when converting downloaded trained `resnet50_ssd_512` I got info about Upgrading symbol:
 ```
-$ python3 deploy.py --prefix test/ssd_resnet50_512 --network resnet50 --num-class 20 
+$ python3 deploy.py --prefix test/ssd_resnet50_512 --network resnet50 --num-class 20
 [15:39:02] src/nnvm/legacy_json_util.cc:209: Loading symbol saved by previous version v0.10.1. Attempting to upgrade...
 [15:39:02] src/nnvm/legacy_json_util.cc:217: Symbol successfully upgraded!
 Saved model: test/deploy_ssd_resnet50_512-0000.params

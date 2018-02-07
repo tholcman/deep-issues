@@ -201,7 +201,7 @@ $ python3 demo.py --network resnet50 --prefix model/deploy_ssd_resnet50_300 --da
 Detection time for 1 images: 1.0584 sec
 
 ```
-![processed with demo.py, optimized model](./out.bmp)
+![processed with demo.py, optimized model](./deployed_on_small.png)
 
 So what am I doing wrong? What is breaking converted model and how to fix it?
 
